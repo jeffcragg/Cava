@@ -1,5 +1,7 @@
 package com.droidvelocity.cava;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -7,18 +9,18 @@ import java.util.Map.Entry;
  * Component instances may be reused or immutable. DisplayComponents must be
  * immutable in order that the componentObjectList may provide a consistent view.
  *
- * @param <T>
  */
 public class Component {
 
     public ComponentObject parentObject;
 
+    @NotNull
     public static Map<Class<? extends Component>, List<? extends Component>> registeredComponentsMap =
             new HashMap<Class<? extends Component>, List<? extends Component>>();
 
 
     @SuppressWarnings("unchecked")
-    public static <T extends Component> void addRegisteredComponent(T component) {
+    public static <T extends Component> void addRegisteredComponent(@NotNull T component) {
         List<T> list = (List<T>) getComponentList(component.getClass());
         // create a list for this type of component if empty
         if (list == null) {
@@ -36,6 +38,7 @@ public class Component {
         list.add(component);
     }
 
+    @NotNull
     @SuppressWarnings("unchecked")
     public static <T extends Component> List<T> getComponentList(Class<T> componentClass) {
         List<T> list = (List<T>) registeredComponentsMap.get(componentClass);
@@ -46,13 +49,14 @@ public class Component {
         return list;
     }
 
+    @NotNull
     public static <T extends Component> List<T> addRegisteredComponentList(Class<T> componentClass) {
         List<T> list = new LinkedList<T>();
         registeredComponentsMap.put(componentClass, list);
         return list;
     }
 
-    public static <T extends Component> void removeRegisteredComponent(T component) {
+    public static <T extends Component> void removeRegisteredComponent(@NotNull T component) {
         @SuppressWarnings("unchecked")
         List<T> list = (List<T>) getComponentList(component.getClass());
         if (list != null) {
@@ -69,7 +73,7 @@ public class Component {
     }
 
     @SuppressWarnings("unchecked")
-    public static void registerAllComponents(Map<Class<? extends Component>, Component> bufferedComponentMap) {
+    public static void registerAllComponents(@NotNull Map<Class<? extends Component>, Component> bufferedComponentMap) {
         Set<Entry<Class<? extends Component>, Component>> entrySet = bufferedComponentMap.entrySet();
         for (Entry<Class<? extends Component>, Component> entry : entrySet) {
             addRegisteredComponent((Class<Component>) entry.getKey(), entry.getValue());
@@ -81,7 +85,7 @@ public class Component {
      *
      * @param componentObject
      */
-    public static void removeComponentObject(final ComponentObject componentObject) {
+    public static void removeComponentObject(@NotNull final ComponentObject componentObject) {
 
         final Set<Entry<Class<? extends Component>, Component>> parent = componentObject.componentMap
                 .entrySet();
