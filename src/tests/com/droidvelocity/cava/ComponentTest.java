@@ -61,12 +61,4 @@ public class ComponentTest {
         assertTrue(isMatched);
     }
 
-    @Test
-    public void givenComponentObjectWithRegisteredComponentThenTheyAreRemovedFromComponentCache() {
-        cObject.putComponent(RootComponent.class, new RootComponent());
-        Component.removeComponentObject(cObject);
-        List<RootComponent> componentList = Component.getComponentList(RootComponent.class);
-        assertTrue(componentList.isEmpty());
-    }
-
 }
